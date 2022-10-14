@@ -1,0 +1,9 @@
+export const USER_TOKEN = 'USER_TOKEN';
+
+export const GET_NEXT_MERCHANT = 'GET_NEXT_MERCHANT';
+export const GET_MERCHANT = 'GET_MERCHANT';
+export const UPDATE_MERCHANT = 'UPDATE_MERCHANT';
+export const USER_LOADING = 'USER_LOADING';
+export const USER_ERROR = 'USER_ERROR';
+export const USER_ERROR_RESET = 'ERROR_RESET';
+//export const GET_VENDOR_LIST = 'GET_VENDOR_LIST';

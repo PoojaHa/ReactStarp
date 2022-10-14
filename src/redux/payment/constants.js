@@ -1,0 +1,5 @@
+export const GET_NEXT_STORE = 'GET_NEXT_STORE';
+export const GET_STORE = 'GET_STORE';
+export const PAYMENT_LOADING = 'PAYMENT_LOADING';
+export const PAYMENT_ERROR = 'PAYMENT_ERROR';
+export const PAYMENT_ERROR_RESET = 'PAYMENT_ERROR_RESET';

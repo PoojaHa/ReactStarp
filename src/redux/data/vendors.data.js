@@ -1,0 +1,65 @@
+export const Vendors = [
+    {
+        id: 'vendor-1',
+        name: 'Ravi Ranjan',
+        orgName: 'ABC packers and Movers',
+        email: 'abcpackers@gmail.com',
+        phone: '9631560280',
+        address: 'MDC-5, Chandigarh, India',
+        operations: [
+            'Chandigarh',
+            'Punjab',
+            'Harayana',
+            'Himanchal'
+        ],
+        token: 'xyxz-123',
+        deviceId: 'vfx123',
+        isVerified: true,
+        isActive: true,
+        isBlocked: false,
+        lastLogin: '27th April 2022',
+        isDeleted: false,
+    },
+    {
+        id: 'vendor-2',
+        name: 'Ravi Ranjan',
+        orgName: 'ABC packers and Movers',
+        email: 'abcpackers@gmail.com',
+        phone: '9631560280',
+        address: 'MDC-5, Chandigarh, India',
+        operations: [
+            'Chandigarh',
+            'Punjab',
+            'Harayana',
+            'Himanchal'
+        ],
+        token: 'xyxz-123',
+        deviceId: 'vfx123',
+        isVerified: true,
+        isActive: true,
+        isBlocked: false,
+        lastLogin: '27th April 2022',
+        isDeleted: false,
+    },
+    {
+        id: 'vendor-3',
+        name: 'Ravi Ranjan',
+        orgName: 'ABC packers and Movers',
+        email: 'abcpackers@gmail.com',
+        phone: '9631560280',
+        address: 'MDC-5, Chandigarh, India',
+        operations: [
+            'Chandigarh',
+            'Punjab',
+            'Harayana',
+            'Himanchal'
+        ],
+        token: 'xyxz-123',
+        deviceId: 'vfx123',
+        isVerified: true,
+        isActive: true,
+        isBlocked: false,
+        lastLogin: '27th April 2022',
+        isDeleted: false,
+    }
+]

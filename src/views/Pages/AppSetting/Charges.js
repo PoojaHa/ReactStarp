@@ -1,0 +1,181 @@
+import React, { useState, useEffect } from 'react'
+import { Card, CardBody, CardHeader, Form, Label, Input, FormGroup, FormText, CardFooter, Button, Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { cabretApi } from '../../../redux/api'
+import { connect } from 'react-redux'
+import { updateMerchant } from '../../../redux/merchant/actions'
+import { useHistory } from 'react-router-dom';
+import Loader from '../../../components/Loader';
+import Popup from '../../../components/Popup';
+
+const Charges = (props) => {
+    const id = props.location.state && props.location.state.id
+    const history = useHistory()
+    const { createCategory } = props
+    const [tax, setTax] = useState(0);
+    const [charges, setCharges] = useState(0)
+    const [maxCharges, setMaxCharges] = useState(0)
+    const [chargesId, setChargesId] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    const [sucess, setSucess] = useState(false)
+    const [errMsg, setErrMsg] = useState('')
+    const [sucessMsg, setSucessMsg] = useState('')
+
+    useEffect(() => {
+        setLoading(true)
+        cabretApi.get('/api/charges').then(res => {
+            if(res.data && res.data.data && res.data.data.length > 0)
+            {
+                setChargesData(res.data.data[0])
+                setChargesId(res.data.data[0]._id)
+            }
+            setLoading(false)
+        }).catch(err => {
+            console.log(err)
+            if(err.response && err.response.data)
+            setErrMsg(err.response.data.message)
+            setLoading(false)
+            setError(true)
+        })
+    }, [])
+
+    const setChargesData=(data)=>{
+        setTax(data.tax||0);
+        setCharges(data.charges||0);
+        setMaxCharges(data.maxCharges||0)
+    }
+    const handleSubmit = (e) => {
+        setLoading(true)
+        e.preventDefault()
+        let data = {
+            tax,
+            charges,
+            maxCharges,
+        }
+        if(chargesId){
+        cabretApi.put(`/api/charges/${chargesId}`,data).then(res => {
+            setLoading(false)
+            setError(false)
+            setSucessMsg('Charges updated successfully')
+            setSucess(true)
+            setTimeout(() => {setSucess(false)}, 1000)
+            // setTimeout(() => {
+            //     history.push({
+            //         pathname: '/merchant/merchant-list',
+            //         state: { id: res.data.data.userId }
+            //     })
+            // }, 1000)
+        }).catch(err => {
+            console.log(err)
+            setErrMsg(err.response.data.message)
+            setLoading(false)
+            setError(true)
+        })
+    }
+    else{
+            cabretApi.post(`/api/charges`, data).then(res => {
+                setLoading(false)
+                setError(false)
+                setSucessMsg('Charges created successfully')
+                setSucess(true)
+                setTimeout(() => { setSucess(false) }, 1000)
+                // setTimeout(() => {
+                //     history.push({
+                //         pathname: '/merchant/merchant-list',
+                //         state: { id: res.data.data.userId }
+                //     })
+                // }, 1000)
+            }).catch(err => {
+                console.log(err)
+                setErrMsg(err.response.data.message)
+                setLoading(false)
+                setError(true)
+            })
+    }
+    }
+    return (
+        <div className="whiteBox" style={{ marginBottom: 20 }}>
+            {loading && <Loader />}
+            {(error || sucess) && <Popup error={error} message={error ? errMsg : sucessMsg} onClick={() => setError(false)} setSuccess={setSucess} success={sucess} />}
+            <h4 className="title-heading">Update Charges</h4>
+            <form>
+                {/* <div className="form-element">
+                        <label>Upload Image</label>
+                        <input className="form-control" type="file" autoComplete="image" onChange={e => { setPicture(e.target.files[0]); console.log(e.target.files[0]) }} />
+                        {picture && <img src={URL.createObjectURL(picture)} alt="upload" style={{ width: 300, hight: 300 }} />}
+
+                    </div> */}
+                <div className="form-element">
+                    <label >Tax Percent</label>
+                    <Input type="number" value={tax} placeholder="Enter Tax Percentage" autoComplete="tax" onChange={(e) => setTax(e.target.value)} />
+                    {/* <FormText className="help-block">Please Enter your password</FormText> */}
+                </div>
+
+                <div className="form-element">
+                    <label >Charges</label>
+                    <Input type="number" value={charges} placeholder="Enter Charges" autoComplete="charges" onChange={(e) => setCharges(e.target.value)} />
+                    {/* <FormText className="help-block">Please Enter your password</FormText> */}
+                </div>
+                <div className="form-element">
+                    <label >Max Charges</label>
+                    <Input type="number" value={maxCharges} placeholder="Enter Max Charges" autoComplete="maxCharges" onChange={(e) => setMaxCharges(e.target.value)} />
+
+                </div>
+                {/* <div className="form-element">
+                        <label for="exampleSelect">Type</label>
+                        <select id="dropdown" className="form-control" onChange={(e) => { handleCategoryType(e.target.value) }}>
+                            <option value={null} selected hidden>Select Type</option>
+                            <option value="ONLINE">Online</option>
+                            <option value="INSTORE">Instore</option>
+                            <option value="MEMBERSHIP_PRODUCT">Membership Product</option>
+                        </select>
+                    </div> */}
+
+                {/* <div className="form-element">
+                        <label for="exampleSelect">Categories</label>
+                        <select id="dropdown" className="form-control" onChange={handleDropdownChange} value={categories.value}>
+                            <option value="1">select</option>
+                            {dataInput.map(item => (
+                                <option key={item.id} value={item.id}>{item.name}
+                                </option>
+                            ))}
+                            <option value="N/A">N/A</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div> */}
+                {/* <div className="form-element">
+                        <Row>
+                            <Col><label >Specification</label></Col>
+                            <Col>
+                                <div className="addSpecs">
+                                    <button className="roundBtn" onClick={handleAppend}>Add</button>
+                                </div>
+                            </Col>
+                            <Col>
+                                <div className="addSpecs">
+                                    <button className="roundBtn" onClick={toggle}>Add</button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div> */}
+
+                {/* <div className="appendData">
+                        {addSpecs.map((el) => <Specifications key={el.id + ''} id={el.id} keyData={el.key} value={el.value} />)}
+                    </div> */}
+                {/* <div className="form-element">
+                        <label >Description</label>
+                        <Input type="textarea" placeholder="Enter Desciption.." autoComplete="description" onChange={(e) => setDescription(e.target.value)} />
+                        {/* <FormText className="help-block">Please Enter your password</FormText> */}
+                {/* </div> */}
+                <div className="submit-wrap">
+                    <button className="common-btn" type="submit" size="sm" color="primary" onClick={handleSubmit}>Update</button>
+                    {/* <button type="reset" size="sm" color="danger"><i className="fa fa-ban"></i> Reset</button> */}
+                </div>
+            </form>
+        </div>
+    )
+}
+export default connect(null, { updateMerchant })(Charges)
